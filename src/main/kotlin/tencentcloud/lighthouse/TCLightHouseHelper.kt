@@ -13,6 +13,7 @@ import tencentcloud.utils.toJsonStr
 
 /**
  * 轻量云服务器
+ * see@ https://console.cloud.tencent.com/api/explorer?Product=lighthouse&Version=2020-03-24&Action=StopInstances
  */
 object TCLightHouseHelper {
     private const val ENDPOINT = "lighthouse.tencentcloudapi.com"
