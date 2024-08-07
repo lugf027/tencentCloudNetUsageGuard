@@ -12,10 +12,13 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    // log打印impl依赖
     implementation("ch.qos.logback:logback-classic:1.4.12")
-    // https://mvnrepository.com/artifact/com.tencentcloudapi/tencentcloud-sdk-java
+    // 腾讯云 sdk api https://mvnrepository.com/artifact/com.tencentcloudapi/tencentcloud-sdk-java
     implementation("com.tencentcloudapi:tencentcloud-sdk-java:3.1.1074")
-    implementation("com.google.code.gson:gson:2.9.0")  // json
+    // 定时器 https://mvnrepository.com/artifact/org.quartz-scheduler/quartz
+    implementation("org.quartz-scheduler:quartz:2.3.2")
+    // .dot文件配置环境变量
     implementation("io.github.cdimascio:dotenv-java:3.0.0")
 }
 
