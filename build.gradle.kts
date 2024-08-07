@@ -20,6 +20,10 @@ dependencies {
     implementation("org.quartz-scheduler:quartz:2.3.2")
     // .dot文件配置环境变量
     implementation("io.github.cdimascio:dotenv-java:3.0.0")
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation("com.google.code.gson:gson:2.10.1")
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }
 
 tasks.test {
