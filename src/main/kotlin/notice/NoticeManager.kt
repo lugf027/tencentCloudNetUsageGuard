@@ -1,22 +1,17 @@
 package notice
 
+import config.MyConfig
+import config.getDotEnv
+import notice.impl.INoticeService
+import notice.impl.WeWorkRobotNoticeImpl
+
 object NoticeManager {
+    private val noticePlatformList = mutableListOf<INoticeService>()
 
+    init {
+        noticePlatformList.add(WeWorkRobotNoticeImpl(MyConfig.WE_WORK_ROBOT_WEBHOOK.getDotEnv()))
+    }
+
+    fun getNoticeList() = noticePlatformList.toList()
 }
 
-interface INotice {
-    /**
-     * 发送文本消息
-     */
-    fun sendMSg(msg: String, seqId: String)
-
-    fun genMsgLine(msg: String): String
-
-    fun genMsgWarning(msg: String): String
-
-    fun genMsgComment(msg: String): String
-
-    fun genMsgInfo(msg: String): String
-
-    fun genMsgLink(msg: String, url: String): String
-}

@@ -1,9 +1,6 @@
 package notice.impl
 
 import com.google.gson.Gson
-import config.MyConfig.WE_WORK_ROBOT_WEBHOOK
-import config.getDotEnv
-import notice.INotice
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -12,17 +9,21 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.slf4j.LoggerFactory
 import java.net.URLDecoder
 
-
-class WeWorkNoticeImpl : INotice {
+/**
+ * 企业微信机器人
+ */
+class WeWorkRobotNoticeImpl(private val webHookURL: String) : INoticeService {
 
     private val client = OkHttpClient()
+
+    override fun getName() = "企业微信机器人"
 
     override fun sendMSg(msg: String, seqId: String) {
         logger.info("sendMSg seqId:$seqId msg:$msg")
         val request = Request.Builder()
-                .url(WE_WORK_ROBOT_WEBHOOK.getDotEnv())
-                .post(Gson().toJson(WechatRobotMarkdownReq.ofMarkDown(msg)).toRequestBody(jsonMediaType))
-                .build()
+            .url(webHookURL)
+            .post(Gson().toJson(WechatRobotMarkdownReq.ofMarkDown(msg)).toRequestBody(jsonMediaType))
+            .build()
         client.newCall(request).execute().use { response ->
             val respBodyStr = response.body?.string()
             logger.info("sendMSg seqId:$seqId respBodyStr:${respBodyStr}")
@@ -31,16 +32,18 @@ class WeWorkNoticeImpl : INotice {
 
     override fun genMsgLine(msg: String) = "$msg\n"
 
-    override fun genMsgWarning(msg: String) = "<font color=\"info\">${msg}</font>"
+    override fun genMsgWarning(msg: String) = "<font color=\"warning\">${msg}</font>"
 
     override fun genMsgComment(msg: String) = "<font color=\"comment\">${msg}</font>"
 
-    override fun genMsgInfo(msg: String) = "<font color=\"warning\">${msg}</font>"
+    override fun genMsgInfo(msg: String) = "<font color=\"info\">${msg}</font>"
 
     override fun genMsgLink(msg: String, url: String): String {
         val urlDecode = URLDecoder.decode(url, "UTF-8")
         return "[$msg]($urlDecode)"
     }
+
+    override fun getMsgBold(msg: String) = "**${msg}**"
 
     data class WechatRobotMarkdownReq(
         var chatid: String = "@all_group",
@@ -82,7 +85,7 @@ class WeWorkNoticeImpl : INotice {
     }
 
     companion object {
-        private val logger = LoggerFactory.getLogger(WeWorkNoticeImpl::class.java)
+        private val logger = LoggerFactory.getLogger(WeWorkRobotNoticeImpl::class.java)
 
         val jsonMediaType: MediaType = "application/json".toMediaType()
     }
