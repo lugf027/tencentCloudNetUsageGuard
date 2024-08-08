@@ -14,6 +14,8 @@ cd tencentCloudNetUsageGuard
 
 注意运行时，需要参考`.env.example`进行环境配置。
 
+网络不佳时，修改gradle https://mirrors.cloud.tencent.com/gradle/gradle-7.4.2-bin.zip
+
 ## KeyPoint
 
 ### TencentCloud SDK API
